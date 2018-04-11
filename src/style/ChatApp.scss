@@ -1,0 +1,73 @@
+@import './_variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// @font-face {
+//   font-family: TeutonNormal;
+//   src: url("/fonts/TeutonNormal.otf") format("opentype");
+// }
+
+body {
+  background: $main-bg;
+  // font-family: 'TeutonNormal';
+  font-family: 'Roboto Mono', 'Courier', monospace;
+  font-size: 15px;
+}
+
+li {
+  list-style: none;
+}
+
+.chat-app {
+  width: 960px;
+  margin: 20px auto;
+  border-radius: 12px;
+  background: $chat-app-bg;
+  overflow: hidden;
+  box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, .3);
+  display: flex;
+
+  .col-right {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.recent-messages {
+  padding: $inner-padding;  
+}
+
+.write-message {
+  padding: $inner-padding;  
+}
+
+.users-list {
+  background: $users-list-bg;
+  .user {
+    height: 80px;
+    width: 200px;
+    padding: 10px 0;
+    border-bottom: 1px solid $font-light;
+    &:last-of-type {
+      border: 0;
+    }
+    .user-name {
+      font-size: 15px;
+      color: $font-light;
+    }
+    .char-name {
+      font-size: 12px;
+      color: $font-darker;
+    }
+    .image-holder {
+      width: 90px;
+    }
+  }
+  .user-container {
+    padding: $inner-padding; 
+  }
+}
