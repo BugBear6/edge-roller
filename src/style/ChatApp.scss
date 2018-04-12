@@ -15,7 +15,7 @@ body {
   background: $main-bg;
   // font-family: 'TeutonNormal';
   font-family: 'Roboto Mono', 'Courier', monospace;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 li {
@@ -34,18 +34,48 @@ li {
   .col-right {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 }
 
+.user-name {
+  font-size: 15px;
+  color: $font-light;
+}
+
+.char-name {
+  font-size: 12px;
+  color: $font-darker;
+}
+
 .recent-messages {
+  flex: 1;
   padding: $inner-padding;  
+
+  .user-name {
+    font-size: 14px;
+    color: $font-dark;
+  }
+  .shout {
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border-top: 1px solid $font-dark;
+    &:first-of-type {
+      border: 0;
+    }
+  }
+  .shout-container {
+    padding: 5px 0;
+  }
 }
 
 .write-message {
+  height: 120px;
   padding: $inner-padding;  
 }
 
 .users-list {
+  height: 100%;
   background: $users-list-bg;
   .user {
     height: 80px;
@@ -55,19 +85,38 @@ li {
     &:last-of-type {
       border: 0;
     }
-    .user-name {
-      font-size: 15px;
-      color: $font-light;
-    }
-    .char-name {
-      font-size: 12px;
-      color: $font-darker;
-    }
-    .image-holder {
-      width: 90px;
-    }
+  }
+  .image-holder {
+    width: 90px;
   }
   .user-container {
     padding: $inner-padding; 
+  }
+}
+
+.dice-picker {
+  background: $users-list-bg;
+  .dice-list {
+    padding-left: 10px;
+  }
+  .dice-container {
+    display: inline-flex;
+    margin-right: 10px;
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+  .dice {
+    height: 45px;
+    width: auto;
+    cursor: pointer;
+  }
+
+  .counter {
+    height: 35px;
+    width: 20px;
+  }
+  .fa-plus-circle {
+    color: green;
   }
 }
