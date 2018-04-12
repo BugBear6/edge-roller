@@ -9,10 +9,14 @@ class WriteMessage extends React.Component {
                         dices={this.props.dices}
                         selectDice={this.props.selectDice}
                         deselectDice={this.props.deselectDice}
+                        dicesSelected={this.props.dicesSelected}
                     />
-                    <textarea 
-                        onKeyDown={this.props.handleKeypress}
-                    />
+                    <div className="textarea-container">
+                        <textarea 
+                            onKeyDown={this.props.handleKeypress}
+                        />
+                        <button>Submit</button>
+                    </div>
                 </div>
             </div>
         );
@@ -25,6 +29,10 @@ const DicePicker = props => (
             {
                 props.dices.map((dice, i) => (
                     <li className="dice-container" key={i} >
+                        <input
+                            value={props.dicesSelected[dice.type]}
+                            type="text" 
+                            className="counter"/>
                         <img                             
                             className="dice"
                             alt={dice.desc}
@@ -32,7 +40,7 @@ const DicePicker = props => (
                             onClick={() => props.selectDice(dice.type)}
                         />
                         <div className="counter-container">
-                            <input type="text" className="counter"/>
+
                             <div className="counter-buttons">
                                 <i 
                                     className="fa fa-plus-circle counter-button" 

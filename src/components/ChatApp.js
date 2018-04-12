@@ -14,7 +14,16 @@ import dif from '../img/dices/dif.png';
 
 class ChatApp extends React.Component {
     state = {
-        dicesSelected: [],
+        dicesSelected: {
+            boost: 0,
+            setback: 0,
+            ab: 0,
+            dif: 0,
+            prof: 0,
+            ch: 0,
+            force: 0,
+            d10: 0
+        },
         roll: [],
         results: [],
         currentMessage: '',
@@ -66,7 +75,7 @@ class ChatApp extends React.Component {
     };
 
     selectDice = diceType => {        
-        console.log('select diceType', diceType);        
+        console.log('select diceType', diceType);
     };
 
     deselectDice = diceType => {        
@@ -88,6 +97,7 @@ class ChatApp extends React.Component {
                         selectDice={this.selectDice}
                         deselectDice={this.deselectDice}
                         handleKeypress={this.handleKeypress}
+                        dicesSelected={this.state.dicesSelected}
                     />
                 </div>                
             </div>
