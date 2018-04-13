@@ -10,12 +10,28 @@ class WriteMessage extends React.Component {
                         selectDice={this.props.selectDice}
                         deselectDice={this.props.deselectDice}
                         dicesSelected={this.props.dicesSelected}
+                        resetDices={this.props.resetDices}
+                        restoreLast={this.props.restoreLast}
                     />
                     <div className="textarea-container">
                         <textarea 
                             onKeyDown={this.props.handleKeypress}
                         />
-                        <button>Submit</button>
+                        <button
+                            className="reset"
+                            onClick={this.props.resetDices}>
+                            <i className="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            className="restore"
+                            onClick={this.props.restoreLast}>
+                            <i className="fa fa-refresh" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            className="submit"
+                            onClick={this.props.submit}>
+                            Submit
+                        </button>
                     </div>
                 </div>
             </div>

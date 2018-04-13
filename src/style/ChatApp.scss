@@ -71,32 +71,53 @@ li {
   }
 }
 
+$textarea-radius: 6px;
 .write-message {
   height: 120px;
   padding: $inner-padding;
   background: #fff;
   textarea{
     width: 100%;
-    resize: none;
+    height: 26px;
     padding: 4px 6px;
-  }
-  .textarea-container {
-    display: flex;
-  }
-  $textarea-radius: 6px;
-  button {
-    background: $main-bg;
-    color: #fff;
-    border: 0;
-    padding: 0 15px;
-    border-top-right-radius: $textarea-radius;
-    border-bottom-right-radius: $textarea-radius;
-    cursor: pointer;
-  }
-  textarea {
+    resize: none;
     border-right: 0;
     border-top-left-radius: $textarea-radius;
     border-bottom-left-radius: $textarea-radius;
+  }
+  .textarea-container {
+    display: flex;
+  }  
+  button {
+    color: $font-darker;
+    background: #fff;
+    border: 1px solid $font-darker;
+    border-right: 0;
+    border-left: 0;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: .1s;
+    &:last-of-type {
+      border-top-right-radius: $textarea-radius;
+      border-bottom-right-radius: $textarea-radius;
+      border-left: 1px solid $font-darker;      
+      border-right: 1px solid $font-darker;      
+    }
+    &:hover {
+      color: #fff;
+    }
+  }
+  .reset:hover {
+    background: $darkred;
+  }
+  .restore:hover {
+    background: $lightgreen;
+  }
+  .submit {
+    padding: 0 25px;
+    &:hover {
+      background: $main-bg;
+    }
   }
 }
 
