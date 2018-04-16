@@ -92,9 +92,9 @@ function Prof() {
 		'success,success',
 		'success,success',
 		'advantage',
-		'success,advatage',
-		'success,advatage',
-		'success,advatage',
+		'success,advantage',
+		'success,advantage',
+		'success,advantage',
 		'advantage,advantage',
 		'advantage,advantage',
 		'triumph'

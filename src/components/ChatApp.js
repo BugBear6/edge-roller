@@ -131,10 +131,9 @@ class ChatApp extends React.Component {
         console.log('addToHistory');
     };
 
-    submit = () => {
+    getResults = (dicesSelected) => {
         let dicesToRoll = [];
         let results = [];
-        let dicesSelected = this.state.dicesSelected;
 
         for (var key in dicesSelected) {
             if (dicesSelected.hasOwnProperty(key)) {
@@ -147,15 +146,49 @@ class ChatApp extends React.Component {
         results = dicesToRoll
             .map(dice => dice.roll())
             .join(',')
-            .split(',');
-        
-        // ["success", "advantage", "advantage", "success", "blank", "threat", "advantage", "advantage", "success", "blank", "failure", "threat", "failure", "failure", "failure", "advantage", "triumph", "success", "succes"]
+            .split(',')
+            // => ["success", "advantage", "advantage", "success", "blank", "threat", "advantage", "advantage", "success", "blank", "failure", "threat"]
 
-        // var e = x.reduce((previousValue, currentValue, i, arr) => {
-        //     if (arr[i] === 'failure') previousValue.failure += 1
-        //     if (arr[i] === 'success') previousValue.success += 1
-        //     return previousValue
-        // }, {failure: 0, success: 0});
+            .reduce((previousValue, currentValue, i, arr) => {
+                let currentResult = arr[i];
+                let isCurrentResultNumber = !isNaN(Number(currentResult));
+                console.log('currentResult', currentResult)
+                if (isCurrentResultNumber) {
+                    previousValue.d10 += `${currentResult},`;
+                } else {
+                    previousValue[currentResult] += 1;
+                }
+
+                return previousValue;
+            }, { failure: 0, success: 0, despair: 0, triumph: 0, threat: 0, advantage: 0, light: 0, dark: 0, blank: 0, d10: '' });
+        // => { failure: 1, success: 2, advantage: 3, d10: '9,10,5,' ... }
+
+        return results;
+    };
+
+    calculateResults = (results) => {
+        let resultsCalculated = {
+            success: Math.max(0, results.success - results.failure),
+            failure: Math.max(0, results.failure - results.success),
+            threat: Math.max(0, results.threat - results.advantage),
+            advantage: Math.max(0, results.advantage - results.threat),
+            despair: results.despair,
+            triumph: results.triumph,
+            light: results.light,
+            dark: results.dark,
+            d10: results.d10
+        };
+
+        return resultsCalculated;
+    }
+
+    submit = () => {
+        const dicesSelected = {...this.state.dicesSelected};
+        const results = this.getResults(dicesSelected);
+        const resultsCalculated = this.calculateResults(results);
+
+        console.log('results', results);
+        console.log('resultsCalculated', resultsCalculated);
 
         // this.setState({
         //     results: results
