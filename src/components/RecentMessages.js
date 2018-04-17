@@ -5,10 +5,16 @@ class RecentMessages extends React.Component {
         return (
             <div className="recent-messages">
                 <ul className="shouts-list">
-                    <Shout />
-                    <Shout />
-                    <Shout />
-                    <Shout />
+                    {
+                        Object.keys(this.props.historial).map(objKey => (
+                            <Shout 
+                                key={this.props.historial[objKey].timestamp} 
+                                charName={this.props.historial[objKey].charName} 
+                                text={this.props.historial[objKey].text} 
+                                results={this.props.historial[objKey].results} 
+                            />
+                        ))
+                    }
                 </ul>
             </div>
         );
@@ -18,10 +24,10 @@ class RecentMessages extends React.Component {
 const Shout = props => (
     <li className="shout">
         <div className="shout-container">
-            <h3 className="user-name">User Name</h3>
-            <h4 className="char-name">Character Name</h4>
-            <p className="shout-text"></p>
-            <div className="shout-roll"></div>
+            {/* <h3 className="user-name">User Name</h3> */}
+            <h3 className="char-name">{props.charName}</h3>
+            <p className="shout-text">{props.text}</p>
+            <div className="shout-roll">{props.results}</div>
         </div>
     </li>
 );

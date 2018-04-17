@@ -26,10 +26,24 @@ class ChatApp extends React.Component {
             force: 0,
             d10: 0
         },
-        roll: [],
-        results: [],
         currentMessage: '',
-        users: []
+        users: [],
+        historial: {
+            1523944250361: {
+                charName: 'Jorgen',
+                roll: 'boost,boost,setback',
+                results: 'failure,success,triumph,success',
+                text: 'First roll',
+                timestamp: '1523944250361'
+            },
+            1523944250395: {
+                charName: 'Jorge2n',
+                roll: 'boost,setback,setback,ab, dif',
+                results: 'failure,success,triumph,success,despair,threat',
+                text: 'Second roll',                
+                timestamp: '1523944250395'
+            }
+        }
     }
 
     dices = [{
@@ -127,8 +141,22 @@ class ChatApp extends React.Component {
         console.log('restoreLast');
     };
 
-    addToHistory = () => {
-        console.log('addToHistory');
+    addToHistorial = (resultsCalculatedString) => {
+        const newHistorial = {...this.state.historial};
+        const timestamp = Date.now();
+        
+        newHistorial[timestamp] = {
+            charName: 'don Jesus',
+            roll: 'xxx',
+            result: resultsCalculatedString,
+            timestamp: timestamp
+        };
+
+        console.log('addToHistorial');
+
+        this.setState({
+            historial: newHistorial
+        });
     };
 
     getResults = (dicesSelected) => {
@@ -142,6 +170,9 @@ class ChatApp extends React.Component {
                 }
             }
         }
+
+        // note that the Triumph symbol also genereates separate success to the pool
+        // and Despair also generates failure as well
 
         results = dicesToRoll
             .map(dice => dice.roll())
@@ -164,10 +195,13 @@ class ChatApp extends React.Component {
         // => { failure: 1, success: 2, advantage: 3, d10: '9,10,5,' ... }
 
         return results;
+        
     };
 
     calculateResults = (results) => {
-        let resultsCalculated = {
+        let resultsArr = [];
+
+        const resultsCalculated = {
             success: Math.max(0, results.success - results.failure),
             failure: Math.max(0, results.failure - results.success),
             threat: Math.max(0, results.threat - results.advantage),
@@ -179,22 +213,34 @@ class ChatApp extends React.Component {
             d10: results.d10
         };
 
-        return resultsCalculated;
+        for (let key in resultsCalculated) {
+            if (resultsCalculated.hasOwnProperty(key)) {
+                if (key === 'd10') {
+                    resultsArr.push(resultsCalculated[key]);
+                } else {
+                    for (let i = 0; i < resultsCalculated[key]; i++) {
+                        resultsArr.push(key);
+                    }
+                }
+            }
+        }
+
+        return resultsArr.join(',');
     }
 
     submit = () => {
         const dicesSelected = {...this.state.dicesSelected};
         const results = this.getResults(dicesSelected);
-        const resultsCalculated = this.calculateResults(results);
+        const resultsCalculatedString = this.calculateResults(results);
 
         console.log('results', results);
-        console.log('resultsCalculated', resultsCalculated);
+        console.log('resultsCalculatedString', resultsCalculatedString);
 
-        // this.setState({
-        //     results: results
-        // });
+        this.addToHistorial(resultsCalculatedString);   
 
-        // add to history
+        // @TODO
+        // clear the roll
+        // save private user historial 
     };
 
     render() {
@@ -206,6 +252,7 @@ class ChatApp extends React.Component {
                 <div className="col-right">
                     <RecentMessages 
                         dices={this.dices}
+                        historial={this.state.historial}
                     />
                     <WriteMessage 
                         dices={this.dices}
