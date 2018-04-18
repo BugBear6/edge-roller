@@ -190,3 +190,23 @@ $textarea-radius: 6px;
     color: $darkred;
   }
 }
+
+.results-list {
+  display: flex;
+}
+
+.results-item {
+  &.success { order: 1 }
+  &.failure { order: 2 }
+  &.advantage { order: 3 }
+  &.threat { order: 4 }
+  &.triumph { order: 5 }
+  &.despair { order: 6 }
+  &.light { order: 7 }
+  &.dark { order: 8 }
+}
+
+.results-symbol {
+  width: 30px;
+  height: auto;
+}

@@ -23,12 +23,6 @@ function Dice(max = 6, labelArr = []) {
 	};
 }
 
-/**
- * note that the Triumph symbol also genereates separate success to the pool
- * in the form of: 'success,triumph' result
- * and Despair also generates failure as well
- */
-
 function Setback() {
 	var max = 6;
 	var labelArr = ['',
@@ -103,7 +97,7 @@ function Prof() {
 		'success,advantage',
 		'advantage,advantage',
 		'advantage,advantage',
-		'success,triumph'
+		'triumph'
 	];
 	var dice = new Dice(max, labelArr);
 	return dice;
@@ -123,7 +117,7 @@ function Ch() {
 		'failure,threat',
 		'threat,threat',
 		'threat,threat',
-		'failure,despair'
+		'despair'
 	];
 	var dice = new Dice(max, labelArr);
 	return dice;

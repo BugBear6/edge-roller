@@ -12,6 +12,7 @@ class RecentMessages extends React.Component {
                                 charName={this.props.historial[objKey].charName} 
                                 text={this.props.historial[objKey].text} 
                                 results={this.props.historial[objKey].results} 
+                                symbols={this.props.symbols} 
                             />
                         ))
                     }
@@ -27,7 +28,26 @@ const Shout = props => (
             {/* <h3 className="user-name">User Name</h3> */}
             <h3 className="char-name">{props.charName}</h3>
             <p className="shout-text">{props.text}</p>
-            <div className="shout-roll">{props.results}</div>
+            <div className="shout-roll">
+                <ul className="dices-list">
+                {/* @TODO */}
+                </ul>
+                <ul className="results-list">
+                    {
+                        props.results.split(',').map((item, i) => (
+                            <li
+                                key={i} 
+                                className={'results-item ' + props.symbols[item].type} >
+                                <img 
+                                    src={props.symbols[item].src}
+                                    title={props.symbols[item].desc}
+                                    alt={props.symbols[item].desc}
+                                    className="results-symbol" />
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
         </div>
     </li>
 );
