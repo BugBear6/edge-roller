@@ -41,7 +41,6 @@ class ChatApp extends React.Component {
             1523944250361: {
                 charName: 'Jorgen',
                 roll: 'boost,boost,setback',
-                results: 'failure,success,triumph,success',
                 text: 'First roll',
                 timestamp: '1523944250361',
                 dicesSelected: {
@@ -53,12 +52,22 @@ class ChatApp extends React.Component {
                     ch: 1,
                     force: 1,
                     d10: 1
+                },
+                resultsCalculated: {
+                    success: 3,
+                    failure: 0,
+                    threat: 1,
+                    advantage: 4,
+                    despair: 1,
+                    triumph: 0,
+                    light: 2,
+                    dark: 0,
+                    d10: '10,4,2'
                 }
             },
             1523944250395: {
                 charName: 'don Simon',
                 roll: 'boost,setback,setback,ab, dif',
-                results: 'failure,success,triumph,success,despair,threat',
                 text: 'Second roll',
                 timestamp: '1523944250395',
                 dicesSelected: {
@@ -70,44 +79,57 @@ class ChatApp extends React.Component {
                     ch: 0,
                     force: 0,
                     d10: 0
+                },
+                resultsCalculated: {
+                    success: 0,
+                    failure: 3,
+                    threat: 5,
+                    advantage: 2,
+                    despair: 2,
+                    triumph: 2,
+                    light: 0,
+                    dark: 0,
+                    // d10: '10,4,2'
                 }
             }
         }
     };
 
-    dices = [{
-        src: boost,
-        type: 'boost',
-        desc: 'Boost Dice'
-    }, {
-        src: setback,
-        type: 'setback',
-        desc: 'Setback Dice'
-    }, {
-        src: ab,
-        type: 'ab',
-        desc: 'Abillity Dice'
-    }, {
-        src: dif,
-        type: 'dif',
-        desc: 'Difficulty Dice'
-    },{
-        src: prof,
-        type: 'prof',
-        desc: 'Proficiency Dice'
-    }, {
-        src: ch,
-        type: 'ch',
-        desc: 'Challenge Dice'
-    }, {
-        src: force,
-        type: 'force',
-        desc: 'Force Dice'
-    }, {
-        src: d10,
-        type: 'd10',
-        desc: 'd10 Dice'
-    }];
+    dices = {
+        boost: {
+            src: boost,
+            type: 'boost',
+            desc: 'Boost Dice'
+        }, setback: {
+            src: setback,
+            type: 'setback',
+            desc: 'Setback Dice'
+        }, ab: {
+            src: ab,
+            type: 'ab',
+            desc: 'Abillity Dice'
+        }, dif: {
+            src: dif,
+            type: 'dif',
+            desc: 'Difficulty Dice'
+        }, prof: {
+            src: prof,
+            type: 'prof',
+            desc: 'Proficiency Dice'
+        }, ch: {
+            src: ch,
+            type: 'ch',
+            desc: 'Challenge Dice'
+        }, force: {
+            src: force,
+            type: 'force',
+            desc: 'Force Dice'
+        }, d10: {
+            src: d10,
+            type: 'd10',
+            desc: 'd10 Dice'
+        }
+    };
 
     symbols = {
         advantage: {
@@ -149,6 +171,11 @@ class ChatApp extends React.Component {
             src: triumph,
             desc: 'Triumph',
             type: 'triumph'
+        },
+        d10: {
+            src: '@TODO',
+            desc: 'D10',
+            type: 'd10'
         }
     };
 
@@ -213,14 +240,14 @@ class ChatApp extends React.Component {
         console.log('restoreLast');
     };
 
-    addToHistorial = (resultsCalculatedString, dicesSelected) => {
+    addToHistorial = (resultsCalculated, dicesSelected) => {
         const newHistorial = {...this.state.historial};
         const timestamp = Date.now();
         
         newHistorial[timestamp] = {
             charName: 'don Jesus',
             roll: 'xxx',
-            result: resultsCalculatedString,
+            resultsCalculated: resultsCalculated,
             timestamp: timestamp,
             dicesSelected: dicesSelected
         };
@@ -269,8 +296,6 @@ class ChatApp extends React.Component {
     };
 
     calculateResults = (results) => {
-        let resultsArr = [];
-
         const resultsCalculated = {
             success: Math.max(0, results.success - results.failure),
             failure: Math.max(0, results.failure - results.success),
@@ -283,33 +308,18 @@ class ChatApp extends React.Component {
             d10: results.d10
         };
 
-        for (let key in resultsCalculated) {
-            if (resultsCalculated.hasOwnProperty(key)) {
-                if (key === 'd10') {
-                    resultsArr.push(resultsCalculated[key]);
-                } else {
-                    for (let i = 0; i < resultsCalculated[key]; i++) {
-                        resultsArr.push(key);
-                    }
-                }
-            }
-        }
-
-        return resultsArr.join(',');
+        return resultsCalculated;
     }
 
     submit = () => {
         const dicesSelected = {...this.state.dicesSelected};
         const results = this.getResults(dicesSelected);
-        const resultsCalculatedString = this.calculateResults(results);
+        const resultsCalculated = this.calculateResults(results);
+
+        this.addToHistorial(resultsCalculated, dicesSelected);   
 
         console.log('results', results);
-        console.log('resultsCalculatedString', resultsCalculatedString);
-
-        // @TODO
-        // save results in object type
-
-        this.addToHistorial(resultsCalculatedString, dicesSelected);   
+        console.log('resultsCalculated', resultsCalculated);
 
         // @TODO
         // clear the roll

@@ -43,8 +43,10 @@ const DicePicker = props => (
     <div className="dice-picker">
         <ul className="dice-list">
             {
-                props.dices.map((dice, i) => (
-                    <li className="dice-container" key={i} >
+                Object.keys(props.dices).map((dice, i) => (
+                    <li 
+                        key={i}
+                        className="dice-container" >
                         <input
                             value={props.dicesSelected[dice.type]}
                             type="text" 
@@ -52,7 +54,7 @@ const DicePicker = props => (
                         <img                             
                             className="dice"
                             alt={dice.desc}
-                            src={dice.src}
+                            src={props.dices[dice].src}
                             onClick={() => props.selectDice(dice.type)}
                         />
                         <div className="counter-container">
