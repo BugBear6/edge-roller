@@ -48,24 +48,24 @@ const DicePicker = props => (
                         key={i}
                         className="dice-container" >
                         <input
-                            value={props.dicesSelected[dice.type]}
+                            value={props.dicesSelected[dice]}
                             type="text" 
                             className="counter"/>
                         <img                             
                             className="dice"
                             alt={dice.desc}
                             src={props.dices[dice].src}
-                            onClick={() => props.selectDice(dice.type)}
+                            onClick={() => props.selectDice(dice)}
                         />
                         <div className="counter-container">
 
                             <div className="counter-buttons">
                                 <i 
                                     className="fa fa-plus-circle counter-button" 
-                                    onClick={() => props.selectDice(dice.type)}></i>
+                                    onClick={() => props.selectDice(dice)}></i>
                                 <i 
                                     className="fa fa-minus-circle counter-button"
-                                    onClick={() => props.deselectDice(dice.type)}></i>
+                                    onClick={() => props.deselectDice(dice)}></i>
                                     
                             </div>
                         </div>

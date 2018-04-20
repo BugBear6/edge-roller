@@ -44,7 +44,7 @@ const resultsObjToArr = (resultsObj) => {
         }
     }
 
-    console.log('resultsArr', resultsArr)
+    // console.log('resultsArr', resultsArr)
     return resultsArr.join(',').split(',');
 };
 
@@ -54,15 +54,17 @@ const Shout = props => (
             <h3 className="char-name">{props.charName}</h3>
             <p className="shout-text">{props.text}</p>
             <div className="shout-roll">
-                <ul className="dices-list">
+                <ul className="dice-list">
                     {
                         resultsObjToArr(props.dicesSelected).map((diceResult, i) => (
-                            <li key={i} >
+                            <li 
+                                key={i}
+                                className={'dice-container ' + props.dices[diceResult].type} >
                             <img 
                                 src={props.dices[diceResult].src}
                                 title={props.dices[diceResult].desc}
                                 alt={props.dices[diceResult].desc}
-                                className="results-dice" 
+                                className="dice" 
                             />
                         </li>
                         ))

@@ -195,6 +195,7 @@ class ChatApp extends React.Component {
     };
 
     selectDice = diceType => {
+        console.log(diceType)
         let newDices = {...this.state.dicesSelected};
         newDices[diceType] = newDices[diceType] + 1;
 
@@ -280,7 +281,7 @@ class ChatApp extends React.Component {
             .reduce((previousValue, currentValue, i, arr) => {
                 let currentResult = arr[i];
                 let isCurrentResultNumber = !isNaN(Number(currentResult));
-                console.log('currentResult', currentResult)
+                // console.log('currentResult', currentResult)
                 if (isCurrentResultNumber) {
                     previousValue.d10 += `${currentResult},`;
                 } else {
@@ -313,6 +314,10 @@ class ChatApp extends React.Component {
 
     submit = () => {
         const dicesSelected = {...this.state.dicesSelected};
+        const selectedDicesAmout = Object.keys(dicesSelected).reduce((prevVal, currVal, i, arr) => prevVal + dicesSelected[arr[i]], 0);
+        console.log('selectedDicesAmout', selectedDicesAmout)
+        if (!selectedDicesAmout) return false;
+
         const results = this.getResults(dicesSelected);
         const resultsCalculated = this.calculateResults(results);
 
@@ -323,6 +328,7 @@ class ChatApp extends React.Component {
 
         // @TODO
         // clear the roll
+        this.resetDices()
         // save private user historial 
     };
 

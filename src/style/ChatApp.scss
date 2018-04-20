@@ -141,12 +141,11 @@ $textarea-radius: 6px;
   }
 }
 
-.dice-picker {
-  .dice-list {
+.dice-list {
     display: flex;
     justify-content: space-around;
     margin-bottom: 10px;
-  }
+
   .dice-container {
     display: inline-flex;
     align-items: center;
@@ -162,6 +161,30 @@ $textarea-radius: 6px;
     width: auto;
     cursor: pointer;
   }
+}
+
+.shouts-list .dice-list {
+  justify-content: flex-start;
+  margin-bottom: 5px;
+  .dice-container {
+    border-right: 0;
+    padding-right: 1px;    
+  }
+  .dice {
+    height: 26px;
+    cursor: default;    
+  }
+  .boost { order: 1 }
+  .setback { order: 2 }
+  .ab { order: 3 }
+  .dif { order: 4 }
+  .prof { order: 5 }
+  .ch { order: 6 }
+  .force { order: 7 }
+  .d10 { order: 8  }
+}
+
+.dice-picker {
   .counter-buttons {
     height: 100%;
     display: flex;
@@ -204,7 +227,7 @@ $textarea-radius: 6px;
   &.despair { order: 6 }
   &.light { order: 7 }
   &.dark { order: 8 }
-  &.d10 { 
+  &.d10 {
     order: 9;
     font-size: 25px;
     padding-left: 5px;
