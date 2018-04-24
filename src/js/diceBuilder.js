@@ -126,11 +126,11 @@ function Ch() {
 function Force() {
 	var max = 12;
 	var labelArr = ['',
-		'blank',
-		'blank',
-		'blank',
-		'blank',
-		'blank',
+		'dark',
+		'dark',
+		'dark',
+		'dark',
+		'dark',
 		'dark',
 		'dark,dark',
 		'light',

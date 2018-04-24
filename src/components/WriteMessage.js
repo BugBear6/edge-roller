@@ -20,12 +20,12 @@ class WriteMessage extends React.Component {
                         <button
                             className="reset"
                             onClick={this.props.resetDices}>
-                            <i className="fa fa-trash-o" aria-hidden="true"></i>
+                            <i className="fa fa-trash-o"></i>
                         </button>
                         <button
                             className="restore"
                             onClick={this.props.restoreLast}>
-                            <i className="fa fa-refresh" aria-hidden="true"></i>
+                            <i className="fa fa-refresh"></i>
                         </button>
                         <button
                             className="submit"
@@ -46,7 +46,7 @@ const DicePicker = props => (
                 Object.keys(props.dices).map((dice, i) => (
                     <li 
                         key={i}
-                        className="dice-container" >
+                        className={'dice-container' + (props.dicesSelected[dice] > 0 ? ' active' : '')} >
                         <input
                             value={props.dicesSelected[dice]}
                             type="text" 

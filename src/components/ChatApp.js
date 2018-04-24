@@ -45,7 +45,7 @@ class ChatApp extends React.Component {
                 timestamp: '1523944250361',
                 dicesSelected: {
                     boost: 1,
-                    setback: 5,
+                    setback: 3,
                     ab: 2,
                     dif: 3,
                     prof: 3,
@@ -57,7 +57,7 @@ class ChatApp extends React.Component {
                     success: 3,
                     failure: 0,
                     threat: 1,
-                    advantage: 4,
+                    advantage: 2,
                     despair: 1,
                     triumph: 0,
                     light: 2,
@@ -83,13 +83,13 @@ class ChatApp extends React.Component {
                 resultsCalculated: {
                     success: 0,
                     failure: 3,
-                    threat: 5,
-                    advantage: 2,
-                    despair: 2,
-                    triumph: 2,
-                    light: 0,
-                    dark: 0,
-                    // d10: '10,4,2'
+                    threat: 2,
+                    advantage: 1,
+                    despair: 1,
+                    triumph: 1,
+                    light: 3,
+                    dark: 1,
+                    d10: '10,4,2'
                 }
             }
         }
@@ -266,7 +266,7 @@ class ChatApp extends React.Component {
 
         for (var key in dicesSelected) {
             if (dicesSelected.hasOwnProperty(key)) {
-                for (let i = 1; i < dicesSelected[key]; i++) {
+                for (let i = 0; i < dicesSelected[key]; i++) {
                     dicesToRoll.push(new diceBuilder[key]());
                 }
             }
@@ -276,12 +276,11 @@ class ChatApp extends React.Component {
             .map(dice => dice.roll())
             .join(',')
             .split(',')
-            // => ["success", "advantage", "advantage", "success", "blank", "threat", "advantage", "advantage", "success", "blank", "failure", "threat"]
+            // => ["success", "advantage", "advantage", "success", "blank", "advantage", "success", "8", "7"]
 
             .reduce((previousValue, currentValue, i, arr) => {
                 let currentResult = arr[i];
                 let isCurrentResultNumber = !isNaN(Number(currentResult));
-                // console.log('currentResult', currentResult)
                 if (isCurrentResultNumber) {
                     previousValue.d10 += `${currentResult},`;
                 } else {
@@ -291,9 +290,8 @@ class ChatApp extends React.Component {
                 return previousValue;
             }, { failure: 0, success: 0, despair: 0, triumph: 0, threat: 0, advantage: 0, light: 0, dark: 0, blank: 0, d10: '' });
         // => { failure: 1, success: 2, advantage: 3, d10: '9,10,5,' ... }
-
-        return results;
         
+        return results;        
     };
 
     calculateResults = (results) => {
@@ -315,9 +313,8 @@ class ChatApp extends React.Component {
     submit = () => {
         const dicesSelected = {...this.state.dicesSelected};
         const selectedDicesAmout = Object.keys(dicesSelected).reduce((prevVal, currVal, i, arr) => prevVal + dicesSelected[arr[i]], 0);
-        console.log('selectedDicesAmout', selectedDicesAmout)
         if (!selectedDicesAmout) return false;
-
+        
         const results = this.getResults(dicesSelected);
         const resultsCalculated = this.calculateResults(results);
 
@@ -326,9 +323,9 @@ class ChatApp extends React.Component {
         console.log('results', results);
         console.log('resultsCalculated', resultsCalculated);
 
-        // @TODO
-        // clear the roll
         this.resetDices()
+
+        // @TODO
         // save private user historial 
     };
 
@@ -349,10 +346,10 @@ class ChatApp extends React.Component {
                         selectDice={this.selectDice}
                         deselectDice={this.deselectDice}
                         handleKeypress={this.handleKeypress}
-                        dicesSelected={this.state.dicesSelected}
-                        resetDices={this.state.resetDices}
-                        restoreLast={this.state.restoreLast}
+                        resetDices={this.resetDices}
                         submit={this.submit}
+                        dicesSelected={this.state.dicesSelected}
+                        restoreLast={this.state.restoreLast}
                     />
                 </div>                
             </div>

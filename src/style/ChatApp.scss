@@ -52,22 +52,39 @@ li {
   max-height: 450px;
   overflow: auto;
   flex: 1;
-  padding: $inner-padding;  
+  padding: $inner-padding;
+
+  .results-list {
+    padding: 7px 4px;
+  }
 
   .char-name {
     font-size: 15px;
-    color: $font-dark;
+    color: #fff;
+    background: $edge-dark-green;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    border-bottom: 1px solid #f4f4f4;
+    padding: 2px 4px;
   }
   .shout {
     margin-bottom: 10px;
     padding-top: 10px;
-    border-top: 1px solid $font-dark;
     &:first-of-type {
       border: 0;
     }
   }
   .shout-container {
-    padding: 5px 0;
+    border: 1px solid $edge-border;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+  }
+
+  .shout-text {
+    color: #2f2d2d;
+    background: $edge-light-green;
+    min-height: 23px;
+    padding: 2px 4px;
   }
 }
 
@@ -165,7 +182,9 @@ $textarea-radius: 6px;
 
 .shouts-list .dice-list {
   justify-content: flex-start;
-  margin-bottom: 5px;
+  margin-bottom: 0;
+  background: $edge-black;
+  padding: 3px 4px;
   .dice-container {
     border-right: 0;
     padding-right: 1px;    
@@ -231,8 +250,11 @@ $textarea-radius: 6px;
     order: 9;
     font-size: 25px;
     padding-left: 5px;
-    &:after{
+    &:after {
       content: ','
+    }
+    &:last-of-type:after {
+      content: '';
     }
   }
 }

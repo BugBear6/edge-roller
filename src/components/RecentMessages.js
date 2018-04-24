@@ -24,39 +24,46 @@ class RecentMessages extends React.Component {
     }
 }
 
-const resultsObjToArr = (resultsObj) => {
-    console.log('resultsObj', resultsObj)
+const resultsObjToArr = (resultsObj, isResults) => {
     let resultsArr = [];
 
     for (let key in resultsObj) {
         if (resultsObj.hasOwnProperty(key)) {
-            
-            // @TODO
-            // handle d10 in results output
-            //
-            // if (key === 'd10') {
-            //     resultsArr.push(resultsObj[key]);
-            // } else {
+            if (isResults && key === 'd10') {
+                resultsArr.push(resultsObj[key]);
+            } else {
                 for (let i = 0; i < resultsObj[key]; i++) {
                     resultsArr.push(key);
                 }
-            // }
+            }
         }
     }
 
-    // console.log('resultsArr', resultsArr)
     return resultsArr.join(',').split(',');
 };
+
+const isSymbol = resultSymbolStr => {
+    const symbolsObj = {
+        success: true,
+        failure: true,
+        threat: true,
+        advantage: true,
+        despair: true,
+        triumph: true,
+        light: true,
+        dark: true
+    };
+    return symbolsObj[resultSymbolStr] || false;
+}
 
 const Shout = props => (
     <li className="shout">
         <div className="shout-container">
             <h3 className="char-name">{props.charName}</h3>
-            <p className="shout-text">{props.text}</p>
             <div className="shout-roll">
                 <ul className="dice-list">
                     {
-                        resultsObjToArr(props.dicesSelected).map((diceResult, i) => (
+                        resultsObjToArr(props.dicesSelected, false).map((diceResult, i) => (
                             <li 
                                 key={i}
                                 className={'dice-container ' + props.dices[diceResult].type} >
@@ -64,35 +71,36 @@ const Shout = props => (
                                 src={props.dices[diceResult].src}
                                 title={props.dices[diceResult].desc}
                                 alt={props.dices[diceResult].desc}
-                                className="dice" 
-                            />
+                                className="dice" />
                         </li>
                         ))
                     }
                 </ul>
                 <ul className="results-list">
                     {
-                    resultsObjToArr(props.resultsCalculated).map((symbolResult, i) => (
-                        isNaN(Number(symbolResult)) ? 
+                    resultsObjToArr(props.resultsCalculated, true).map((resultSymbolStr, i) => (
+                        isSymbol(resultSymbolStr) ? 
                             <li
                                 key={i} 
-                                className={'results-item ' + props.symbols[symbolResult].type} >
+                                className={'results-item ' + props.symbols[resultSymbolStr].type} >
                                 <img 
-                                    src={props.symbols[symbolResult].src}
-                                    title={props.symbols[symbolResult].desc}
-                                    alt={props.symbols[symbolResult].desc}
-                                    className="results-symbol" 
-                            />
+                                    src={props.symbols[resultSymbolStr].src}
+                                    title={props.symbols[resultSymbolStr].desc}
+                                    alt={props.symbols[resultSymbolStr].desc}
+                                    className="results-symbol" />
                             </li>
-                        :
-                            <li
-                                key={i} 
-                                className={'results-item d10'} >
-                                {symbolResult}
-                            </li>
+                        :                       
+                            resultSymbolStr.split(',').filter(item => item).map((d10Result, j) => (
+                                <li
+                                    key={j} 
+                                    className={'results-item d10'} >
+                                    {d10Result}
+                                </li>
+                            ))                            
                     ))
                     }
                 </ul>
+                <p className="shout-text">{props.text}</p>
             </div>
         </div>
     </li>
