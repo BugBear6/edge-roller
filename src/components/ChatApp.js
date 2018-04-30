@@ -93,7 +93,8 @@ class ChatApp extends React.Component {
                     // d10: '10,4,2'
                 }
             }
-        }
+        },
+        usersLastRolls: [{ble: 123}]
     };
 
     dices = {
@@ -264,22 +265,24 @@ class ChatApp extends React.Component {
     getResults = (dicesSelected) => {
         let dicesToRoll = [];
         let results = [];
+        let dicesRolled;
 
         for (var key in dicesSelected) {
             if (dicesSelected.hasOwnProperty(key)) {
-                for (let i = 1; i < dicesSelected[key]; i++) {
+                for (let i = 0; i < dicesSelected[key]; i++) {
                     dicesToRoll.push(new diceBuilder[key]());
                 }
             }
         }
 
-        results = dicesToRoll
+        dicesRolled = dicesToRoll
             .map(dice => dice.roll())
             .join(',')
-            .split(',')
+            .split(',');
             // => ["success", "advantage", "advantage", "success", "blank", "threat", "advantage", "advantage", "success", "blank", "failure", "threat"]
 
-            .reduce((previousValue, currentValue, i, arr) => {
+
+        results = dicesRolled.reduce((previousValue, currentValue, i, arr) => {
                 let currentResult = arr[i];
                 let isCurrentResultNumber = !isNaN(Number(currentResult));
                 // console.log('currentResult', currentResult)
@@ -293,8 +296,7 @@ class ChatApp extends React.Component {
             }, { failure: 0, success: 0, despair: 0, triumph: 0, threat: 0, advantage: 0, light: 0, dark: 0, blank: 0, d10: '' });
         // => { failure: 1, success: 2, advantage: 3, d10: '9,10,5,' ... }
 
-        return results;
-        
+        return results;        
     };
 
     calculateResults = (results) => {
@@ -324,13 +326,12 @@ class ChatApp extends React.Component {
 
         this.addToHistorial(resultsCalculated, dicesSelected);   
 
-        console.log('results', results);
-        console.log('resultsCalculated', resultsCalculated);
-
         // @TODO
         // clear the roll
         this.resetDices();
         // save private user historial 
+
+        this.saveLastUsersRoll(dicesSelected);
 
         this.setState({
             justSubmitted: true
@@ -341,6 +342,24 @@ class ChatApp extends React.Component {
         this.setState({
             justSubmitted: false
         });
+    };
+
+    saveLastUsersRoll = (dicesSelected) => {
+        const usersLastRolls = [...this.state.usersLastRolls];
+
+        if (usersLastRolls.length === 5) {
+            usersLastRolls.shift();
+        }
+
+        usersLastRolls.push(dicesSelected);
+
+        this.setState({
+            usersLastRolls: usersLastRolls
+        });
+    };
+
+    loadLastUSersRoll = () => {
+
     };
 
     render() {
@@ -365,6 +384,8 @@ class ChatApp extends React.Component {
                         dicesSelected={this.state.dicesSelected}
                         resetDices={this.resetDices}
                         restoreLast={this.state.restoreLast}
+                        usersLastRolls={this.state.usersLastRolls}
+                        loadLastUSersRoll={this.loadLastUSersRoll}
                         submit={this.submit}
                     />
                 </div>                
