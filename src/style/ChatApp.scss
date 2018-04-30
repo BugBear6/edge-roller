@@ -1,26 +1,4 @@
-@import './_variables.scss';
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-// @font-face {
-//   font-family: TeutonNormal;
-//   src: url("/fonts/TeutonNormal.otf") format("opentype");
-// }
-
-body {
-  background: $main-bg;
-  // font-family: 'TeutonNormal';
-  font-family: 'Roboto Mono', 'Courier', monospace;
-  font-size: 14px;
-}
-
-li {
-  list-style: none;
-}
+@import './base';
 
 .chat-app {
   width: 960px;

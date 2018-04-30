@@ -4,6 +4,8 @@ import RecentMessages from './RecentMessages';
 import WriteMessage from './WriteMessage';
 import {diceBuilder} from '../js/diceBuilder';
 
+import '../style/ChatApp.css';
+
 import ab from '../img/dices/ab.png';
 import ch from '../img/dices/ch.png';
 import d10 from '../img/dices/d10.png';
