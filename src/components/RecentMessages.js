@@ -1,6 +1,21 @@
 import React from 'react';
 
 class RecentMessages extends React.Component {
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+      
+      componentDidMount() {
+        this.scrollToBottom();
+    }
+      
+      componentDidUpdate() {
+        if (this.props.justSubmitted) {
+            this.scrollToBottom();
+            this.props.afterSubmit()
+        }
+    }
+
     render() {
         return (
             <div className="recent-messages">
@@ -18,6 +33,9 @@ class RecentMessages extends React.Component {
                             />
                         ))
                     }
+                    <li style={{ float:"left", clear: "both" }}
+                        ref={(el) => { this.messagesEnd = el; }}>
+                    </li>
                 </ul>
             </div>
         );

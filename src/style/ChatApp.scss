@@ -204,6 +204,12 @@ $textarea-radius: 6px;
 }
 
 .dice-picker {
+  $opacity: 0.6;
+  @mixin selectOpacity {
+    opacity: $opacity;
+    &:hover{ opacity: 1;}
+  }
+
   .counter-buttons {
     height: 100%;
     display: flex;
@@ -230,6 +236,11 @@ $textarea-radius: 6px;
   }
   .fa-minus-circle {
     color: $darkred;
+  }
+  .unselected {
+    .dice { @include selectOpacity }
+    .fa-minus-circle { opacity: $opacity; }
+    .counter { opacity: $opacity; }
   }
 }
 

@@ -25,6 +25,7 @@ import triumph from '../img/icons/triumph.png';
 
 class ChatApp extends React.Component {
     state = {
+        justSubmitted: false,
         dicesSelected: {
             boost: 0,
             setback: 0,
@@ -45,7 +46,7 @@ class ChatApp extends React.Component {
                 timestamp: '1523944250361',
                 dicesSelected: {
                     boost: 1,
-                    setback: 3,
+                    setback: 5,
                     ab: 2,
                     dif: 3,
                     prof: 3,
@@ -57,7 +58,7 @@ class ChatApp extends React.Component {
                     success: 3,
                     failure: 0,
                     threat: 1,
-                    advantage: 2,
+                    advantage: 4,
                     despair: 1,
                     triumph: 0,
                     light: 2,
@@ -83,13 +84,13 @@ class ChatApp extends React.Component {
                 resultsCalculated: {
                     success: 0,
                     failure: 3,
-                    threat: 2,
-                    advantage: 1,
-                    despair: 1,
-                    triumph: 1,
-                    light: 3,
-                    dark: 1,
-                    d10: '10,4,2'
+                    threat: 5,
+                    advantage: 2,
+                    despair: 2,
+                    triumph: 2,
+                    light: 0,
+                    dark: 0,
+                    // d10: '10,4,2'
                 }
             }
         }
@@ -266,7 +267,7 @@ class ChatApp extends React.Component {
 
         for (var key in dicesSelected) {
             if (dicesSelected.hasOwnProperty(key)) {
-                for (let i = 0; i < dicesSelected[key]; i++) {
+                for (let i = 1; i < dicesSelected[key]; i++) {
                     dicesToRoll.push(new diceBuilder[key]());
                 }
             }
@@ -276,11 +277,12 @@ class ChatApp extends React.Component {
             .map(dice => dice.roll())
             .join(',')
             .split(',')
-            // => ["success", "advantage", "advantage", "success", "blank", "advantage", "success", "8", "7"]
+            // => ["success", "advantage", "advantage", "success", "blank", "threat", "advantage", "advantage", "success", "blank", "failure", "threat"]
 
             .reduce((previousValue, currentValue, i, arr) => {
                 let currentResult = arr[i];
                 let isCurrentResultNumber = !isNaN(Number(currentResult));
+                // console.log('currentResult', currentResult)
                 if (isCurrentResultNumber) {
                     previousValue.d10 += `${currentResult},`;
                 } else {
@@ -290,8 +292,9 @@ class ChatApp extends React.Component {
                 return previousValue;
             }, { failure: 0, success: 0, despair: 0, triumph: 0, threat: 0, advantage: 0, light: 0, dark: 0, blank: 0, d10: '' });
         // => { failure: 1, success: 2, advantage: 3, d10: '9,10,5,' ... }
+
+        return results;
         
-        return results;        
     };
 
     calculateResults = (results) => {
@@ -313,8 +316,9 @@ class ChatApp extends React.Component {
     submit = () => {
         const dicesSelected = {...this.state.dicesSelected};
         const selectedDicesAmout = Object.keys(dicesSelected).reduce((prevVal, currVal, i, arr) => prevVal + dicesSelected[arr[i]], 0);
+        console.log('selectedDicesAmout', selectedDicesAmout)
         if (!selectedDicesAmout) return false;
-        
+
         const results = this.getResults(dicesSelected);
         const resultsCalculated = this.calculateResults(results);
 
@@ -323,10 +327,20 @@ class ChatApp extends React.Component {
         console.log('results', results);
         console.log('resultsCalculated', resultsCalculated);
 
-        this.resetDices()
-
         // @TODO
+        // clear the roll
+        this.resetDices();
         // save private user historial 
+
+        this.setState({
+            justSubmitted: true
+        });
+    };
+
+    afterSubmit = () => {
+        this.setState({
+            justSubmitted: false
+        });
     };
 
     render() {
@@ -340,16 +354,18 @@ class ChatApp extends React.Component {
                         dices={this.dices}
                         symbols={this.symbols}
                         historial={this.state.historial}
+                        justSubmitted={this.state.justSubmitted}
+                        afterSubmit={this.afterSubmit}
                     />
                     <WriteMessage 
                         dices={this.dices}
                         selectDice={this.selectDice}
                         deselectDice={this.deselectDice}
                         handleKeypress={this.handleKeypress}
-                        resetDices={this.resetDices}
-                        submit={this.submit}
                         dicesSelected={this.state.dicesSelected}
+                        resetDices={this.resetDices}
                         restoreLast={this.state.restoreLast}
+                        submit={this.submit}
                     />
                 </div>                
             </div>
