@@ -18,10 +18,22 @@ body {
   font-size: 14px;
 }
 
+a {
+  text-decoration: none;
+}
+
 li {
   list-style: none;
 }
 
 button {
   border: 0;
+}
+
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  position: absolute !important;
+  color: transparent !important;
 }

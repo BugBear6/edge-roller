@@ -19,8 +19,8 @@ const User = props => (
             <div className="image-holder">
             </div>
             <div className="data=holder">
-                <h3 className="user-name">User Name</h3>
                 <h4 className="char-name">User Character Name</h4>
+                <h3 className="user-name">User Name</h3>
             </div>
         </div>
     </li>

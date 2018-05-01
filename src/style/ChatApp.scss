@@ -2,7 +2,8 @@
 
 .chat-app {
   width: 960px;
-  margin: 20px auto;
+  height: 89vh;
+  margin: 15px auto 0;
   border-radius: 12px;
   background: $chat-app-bg;
   overflow: hidden;
@@ -16,18 +17,39 @@
   }
 }
 
-.user-name {
-  font-size: 15px;
+.chat-header {
+  background: $chat-app-bg;
+  border-bottom: 1px solid $users-list-bg;
   color: $font-light;
+  padding: 10px $inner-padding;
+  display: flex;
+  justify-content: space-between;
+  .char-name {
+    font-size: 15px;
+    font-weight: bold;
+    color: $font-dark;
+    
+  }
+  .user-name {
+    font-size: 12px;
+    color: $font-darker;
+  }
+  .user-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logout {
+    font-size: 19px;
+    color: $font-darker;   
+    cursor: pointer;
+    transition: .1s;
+    &:hover {color: $font-dark;}
+  }
 }
 
-.char-name {
-  font-size: 12px;
-  color: $font-darker;
-}
 
 .recent-messages {
-  max-height: 450px;
   overflow: auto;
   flex: 1;
   padding: $inner-padding;
@@ -36,14 +58,22 @@
     padding: 7px 4px;
   }
 
-  .char-name {
-    font-size: 15px;
-    color: #fff;
-    background: $edge-dark-green;
+  .shout-header {
+    font-size: 12px;    
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
+    padding: 2px 6px;    
+    background: $edge-dark-green;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid #f4f4f4;
-    padding: 2px 4px;
+  }
+  .char-name {
+
+  }
+  .shout-time {
+    font-size: 13px;
   }
   .shout {
     margin-bottom: 10px;
@@ -63,8 +93,10 @@
     background: $edge-light-green;
     min-height: 23px;
     padding: 2px 4px;
-  }
+  } 
 }
+
+
 
 $textarea-radius: 6px;
 .write-message {
@@ -106,12 +138,12 @@ $textarea-radius: 6px;
     background: $darkred;
   }
   .restore:hover {
-    background: $lightgreen;
+    background: $main-bg;   
   }
   .submit {
     padding: 0 25px;
     &:hover {
-      background: $main-bg;
+    background: $lightgreen;      
     }
   }
 }
@@ -128,11 +160,19 @@ $textarea-radius: 6px;
       border: 0;
     }
   }
+  .char-name {
+    font-size: 14px;
+    color: $font-light;
+  }
+  .user-name {
+    font-size: 12px;
+    color: $font-darker;
+  }
   .image-holder {
     width: 90px;
   }
   .user-container {
-    padding: $inner-padding; 
+    padding: $inner-padding 5px $inner-padding $inner-padding; 
   }
 }
 
@@ -237,7 +277,7 @@ $textarea-radius: 6px;
   &.dark { order: 8 }
   &.d10 {
     order: 9;
-    font-size: 25px;
+    font-size: 21px;
     padding-left: 5px;
     &:after {
       content: ','

@@ -15,7 +15,9 @@ class WriteMessage extends React.Component {
                     />
                     <div className="textarea-container">
                         <textarea 
-                            onKeyDown={this.props.handleKeypress}
+                            onKeyDown={this.props.handleKeyControl}
+                            onChange={this.props.handleMessageChange}
+                            value={this.props.currentMessage}
                         />
                         <button
                             className="reset"
@@ -25,7 +27,7 @@ class WriteMessage extends React.Component {
                         <button
                             className="restore"
                             onClick={this.props.restoreLast}>
-                            <i className="fa fa-refresh" aria-hidden="true"></i>
+                            <i className="fa fa-history" aria-hidden="true"></i>
                         </button>
                         <button
                             className="submit"

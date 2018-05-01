@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import UsersList from './UsersList';
 import RecentMessages from './RecentMessages';
 import WriteMessage from './WriteMessage';
@@ -27,6 +29,8 @@ import triumph from '../img/icons/triumph.png';
 
 class ChatApp extends React.Component {
     state = {
+        userName: 'Janusz',
+        charName: 'Jabba the Hutt',
         justSubmitted: false,
         dicesSelected: {
             boost: 0,
@@ -43,7 +47,6 @@ class ChatApp extends React.Component {
         historial: {
             1523944250361: {
                 charName: 'Jorgen',
-                roll: 'boost,boost,setback',
                 text: 'First roll',
                 timestamp: '1523944250361',
                 dicesSelected: {
@@ -70,7 +73,6 @@ class ChatApp extends React.Component {
             },
             1523944250395: {
                 charName: 'don Simon',
-                roll: 'boost,setback,setback,ab, dif',
                 text: 'Second roll',
                 timestamp: '1523944250395',
                 dicesSelected: {
@@ -98,6 +100,13 @@ class ChatApp extends React.Component {
         },
         usersLastRolls: [{ble: 123}]
     };
+
+    componentDidMount() {
+        this.setState({
+            userName: this.props.userName,
+            charName: this.props.charName
+        })
+    }
 
     dices = {
         boost: {
@@ -177,25 +186,31 @@ class ChatApp extends React.Component {
             type: 'triumph'
         },
         d10: {
-            src: '@TODO',
+            src: '...',
             desc: 'D10',
             type: 'd10'
         }
     };
 
-    handleKeypress = ev => {
-        console.log('handle keypress!')
-
+    handleKeyControl = ev => {
         if (ev.key === 'Enter') {
             ev.preventDefault();
             ev.stopPropagation();
-            console.log('enter keypress!');
+            this.submit();
+            return true;
         }
 
         if (ev.key === 'ArrowUp') {
             // restore dices
-            console.log('ArrowUp keypress!');            
+            console.log('ArrowUp keypress!');      
+            return true;      
         }
+    };
+
+    handleMessageChange = ev => {
+        this.setState({
+            currentMessage: ev.target.value
+        });
     };
 
     selectDice = diceType => {
@@ -237,7 +252,8 @@ class ChatApp extends React.Component {
                 ch: 0,
                 force: 0,
                 d10: 0
-            }
+            },
+            currentMessage: ''
         });
     };
 
@@ -250,11 +266,11 @@ class ChatApp extends React.Component {
         const timestamp = Date.now();
         
         newHistorial[timestamp] = {
-            charName: 'don Jesus',
-            roll: 'xxx',
-            resultsCalculated: resultsCalculated,
+            charName: this.state.charName,
+            resultsCalculated: resultsCalculated || false,
             timestamp: timestamp,
-            dicesSelected: dicesSelected
+            dicesSelected: dicesSelected || false,
+            text: this.state.currentMessage || ''
         };
 
         console.log('addToHistorial');
@@ -321,19 +337,19 @@ class ChatApp extends React.Component {
         const dicesSelected = {...this.state.dicesSelected};
         const selectedDicesAmout = Object.keys(dicesSelected).reduce((prevVal, currVal, i, arr) => prevVal + dicesSelected[arr[i]], 0);
         console.log('selectedDicesAmout', selectedDicesAmout)
-        if (!selectedDicesAmout) return false;
 
-        const results = this.getResults(dicesSelected);
-        const resultsCalculated = this.calculateResults(results);
+        if (!selectedDicesAmout) {
+            this.addToHistorial();
+        } else {
+            const results = this.getResults(dicesSelected);
+            const resultsCalculated = this.calculateResults(results);
+    
+            this.addToHistorial(resultsCalculated, dicesSelected);   
+            this.saveLastUsersRoll();     
+        }
 
-        this.addToHistorial(resultsCalculated, dicesSelected);   
-
-        // @TODO
-        // clear the roll
         this.resetDices();
         // save private user historial 
-
-        this.saveLastUsersRoll(dicesSelected);
 
         this.setState({
             justSubmitted: true
@@ -371,6 +387,17 @@ class ChatApp extends React.Component {
                     <UsersList />
                 </div>
                 <div className="col-right">
+                    <div className="chat-header">
+                        <div className="user-data">
+                            <p className="char-name">{this.state.charName}</p>
+                            <p className="user-name">{this.state.userName}</p>
+                        </div>
+                        <div className="user-controls">
+                            <Link to="/">
+                                <i className="fa fa-sign-out logout" />
+                            </Link>
+                        </div>                        
+                    </div>
                     <RecentMessages 
                         dices={this.dices}
                         symbols={this.symbols}
@@ -380,9 +407,11 @@ class ChatApp extends React.Component {
                     />
                     <WriteMessage 
                         dices={this.dices}
+                        currentMessage={this.state.currentMessage}
                         selectDice={this.selectDice}
                         deselectDice={this.deselectDice}
-                        handleKeypress={this.handleKeypress}
+                        handleKeyControl={this.handleKeyControl}
+                        handleMessageChange={this.handleMessageChange}
                         dicesSelected={this.state.dicesSelected}
                         resetDices={this.resetDices}
                         restoreLast={this.state.restoreLast}
