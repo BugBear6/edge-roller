@@ -1,7 +1,7 @@
 @import './base';
 
 .chat-app {
-  width: 960px;
+  width: 990px;
   height: 89vh;
   margin: 15px auto 0;
   border-radius: 12px;
@@ -9,6 +9,14 @@
   overflow: hidden;
   box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, .3);
   display: flex;
+
+  .col-left {
+    padding-bottom: 20px;
+    background: $users-list-bg;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 
   .col-right {
     display: flex;
@@ -149,8 +157,7 @@ $textarea-radius: 6px;
 }
 
 .users-list {
-  height: 100%;
-  background: $users-list-bg;
+  overflow: auto;
   .user {
     height: 80px;
     width: 200px;
@@ -221,45 +228,38 @@ $textarea-radius: 6px;
   .d10 { order: 8  }
 }
 
-.dice-picker {
-  $opacity: 0.6;
-  @mixin selectOpacity {
-    opacity: $opacity;
-    &:hover{ opacity: 1;}
-  }
-
-  .counter-buttons {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    font-size: 17px;
-  }
-  .counter-buttons i {
+.counter-buttons {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 17px;
+  i {
     cursor: pointer;
   }
-  .counter {
-    width: 20px;
-    font-size: 27px;
-    text-align: center;
-    pointer-events: none;
-    border:0;
-    border-bottom: 1px solid $font-darker;
-  }
-  .counter-container {
-    height: 100%;
-  }
-  .fa-plus-circle {
-    color: $lightgreen;
-  }
-  .fa-minus-circle {
-    color: $darkred;
-  }
-  .unselected {
-    .dice { @include selectOpacity }
-    .fa-minus-circle { opacity: $opacity; }
-    .counter { opacity: $opacity; }
-  }
+}
+.counter {
+  width: 20px;
+  font-size: 27px;
+  text-align: center;
+  pointer-events: none;
+  border:0;
+  border-bottom: 1px solid $font-darker;
+  background: transparent;
+}
+.counter-container {
+  height: 100%;
+}
+.fa-plus-circle {
+  color: $lightgreen;
+}
+.fa-minus-circle {
+  color: $darkred;
+}
+.unselected {
+  .dice { @include selectOpacity($opacity) }
+  .fa-minus-circle { opacity: $opacity; }
+  .counter { opacity: $opacity; }
 }
 
 .results-list {
@@ -291,4 +291,46 @@ $textarea-radius: 6px;
 .results-symbol {
   width: 30px;
   height: auto;
+}
+
+.destiny-points {
+  padding-bottom: 7px;
+  border-top: 1px solid $font-light;
+  .destiny-points-header {
+    color: $font-light;
+    text-align: center;
+    padding: 15px 0;
+  }
+  .destiny-points-list {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+  }
+  .destiny-point-container {
+    display: inline-flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .destiny-points-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .destiny-point-img {
+    width: auto;
+    height: 55px;
+    cursor: pointer;
+  }
+  .counter-buttons {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 18px;
+  }
+  .counter {
+    border-color: $font-darker;
+    color: $font-darker;
+  }
 }

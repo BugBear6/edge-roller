@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import ChatApp from '../components/ChatApp';
+import ChatApp from '../componentsChat/ChatApp';
 import LoginApp from '../componentsLogin/LoginApp';
 
 class RoutingApp extends React.Component {

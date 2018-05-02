@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import UsersList from './UsersList';
 import RecentMessages from './RecentMessages';
 import WriteMessage from './WriteMessage';
+import DestinyPoints from './DestinyPoints';
 import {diceBuilder} from '../js/diceBuilder';
 
 import '../style/ChatApp.css';
@@ -44,6 +45,10 @@ class ChatApp extends React.Component {
         },
         currentMessage: '',
         users: [],
+        destinyPoints: {
+            light: 3,
+            dark: 2
+        },
         historial: {
             1523944250361: {
                 charName: 'Jorgen',
@@ -257,6 +262,24 @@ class ChatApp extends React.Component {
         });
     };
 
+    addDestinyPoint = type => {
+        const newState = {...this.state.destinyPoints};
+        newState[type] = newState[type] + 1 >= 9 ? 9 : newState[type] + 1;
+
+        this.setState({
+            destinyPoints: newState
+        });
+    };
+
+    removeDestinyPoint = type => {
+        const newState = {...this.state.destinyPoints};
+        newState[type] = newState[type] - 1 <= 0 ? 0 : newState[type] - 1;
+
+        this.setState({
+            destinyPoints: newState
+        });
+    };
+
     restoreLast = () => {
         console.log('restoreLast');
     };
@@ -338,6 +361,10 @@ class ChatApp extends React.Component {
         const selectedDicesAmout = Object.keys(dicesSelected).reduce((prevVal, currVal, i, arr) => prevVal + dicesSelected[arr[i]], 0);
         console.log('selectedDicesAmout', selectedDicesAmout)
 
+        if (!selectedDicesAmout && !this.state.currentMessage.trim()) {
+            return false;
+        }
+
         if (!selectedDicesAmout) {
             this.addToHistorial();
         } else {
@@ -385,6 +412,11 @@ class ChatApp extends React.Component {
             <div className="chat-app">
                 <div className="col-left">
                     <UsersList />
+                    <DestinyPoints 
+                        destinyPoints={this.state.destinyPoints}
+                        addDestinyPoint={this.addDestinyPoint}
+                        removeDestinyPoint={this.removeDestinyPoint}
+                    />
                 </div>
                 <div className="col-right">
                     <div className="chat-header">
